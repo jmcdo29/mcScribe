@@ -1,0 +1,23 @@
+{
+  "name": "mc-logger",
+  "version": "1.0.0",
+  "description": "A package for handling both express request logging and to control the level of logging from the application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "echo \"No git repo set up\""
+  },
+  "keywords": [
+    "Logging",
+    "Node",
+    "Express"
+  ],
+  "author": "Jay McDoniel <mailto:jmcdo29@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.5.0"
+  }
+}
