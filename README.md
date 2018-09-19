@@ -1,9 +1,9 @@
-# Mc-Logger
+# Mc-Scribe
 
 Before getting started import the module in your root server file with
 
 ```javascript
-const logging = require('mc-logger');
+const logging = require('mc-scribe');
 ```
 
 from there the functions `logStart`, `requestLogger`, and `logger` can be accessed.
@@ -41,14 +41,14 @@ result = {
 To use this request logger in your application, make sure to import the function specifically with
 
 ```javascript
-const requestLogger = require('mc-logger').requestLogger;
+const requestLogger = require('mc-scribe').requestLogger;
 app.use(requestLogger);
 ```
 
 or import the main object and use the property
 
 ```javascript
-const logging = require('mc-logger');
+const logging = require('mc-scribe');
 app.use(logging.requestLogger);
 ```
 
@@ -73,7 +73,7 @@ If in the environment variables `LOG_LEVEL` is set to `FINE` then the requestLog
 In any module you would like to implement the logger you will need to import the logger with
 
 ```javascript
-const logger = require('mc-logger').consoleLogger;
+const logger = require('mc-scribe').consoleLogger;
 ```
 
 To use the logger you will need to call the function with

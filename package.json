@@ -1,6 +1,6 @@
 {
   "name": "mc-scribe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A package for handling both express request logging and to control the level of logging from the application.",
   "main": "index.js",
   "scripts": {
