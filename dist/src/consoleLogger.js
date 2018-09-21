@@ -23,10 +23,10 @@ function consoleLogger(level, ...args) {
     if (mapLevel >= logLevel && logLevel !== 0) {
         for (const arg of args) {
             if (typeof arg === 'object') {
-                console.log(`[${new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '')}] [${level.toUpperCase()}] |\n`, arg);
+                console.log(`[${new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '')}] [${level.toUpperCase()}] \t|\n`, arg);
             }
             else {
-                console.log(`[${new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '')}] [${level.toUpperCase()}] |`, arg);
+                console.log(`[${new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '')}] [${level.toUpperCase()}] \t|`, arg);
             }
         }
     }
