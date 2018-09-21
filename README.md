@@ -1,10 +1,16 @@
 # Mc-Scribe
 
+[![Build Status](https://travis-ci.org/jmcdo29/mcScribe.svg?branch=master)](https://travis-ci.org/jmcdo29/mcScribe)
+
 Before getting started import the module in your root server file with
+
+JavaScript
 
 ```javascript
 const logging = require('mc-scribe');
 ```
+
+TypeScript
 
 ```typescript
 import * as logger from 'mc-scribe';
@@ -16,9 +22,13 @@ from there the functions `logStart`, `requestLogger`, and `logger` can be access
 
 While setting up your middleware add in the following line to make sure the request object has the correct properties.
 
+JavaScript
+
 ```javascript
 app.use(logging.logStart(returnCode, errorList));
 ```
+
+TypeScript
 
 ```typescript
 app.use(logging.logStart(returnCode, errorList));
@@ -26,9 +36,13 @@ app.use(logging.logStart(returnCode, errorList));
 
 To use it without adding any of your own values, just call
 
+JavaScript
+
 ```javascript
 app.use(logging.logStart());
 ```
+
+TypeScript
 
 ```typescript
 app.use(logging.logStart());
@@ -52,10 +66,14 @@ result = {
 
 To use this request logger in your application, make sure to import the function specifically with
 
+JavaScript
+
 ```javascript
 const requestLogger = require('mc-scribe').requestLogger;
 app.use(requestLogger);
 ```
+
+TypeScript
 
 ```typescript
 import { requestLogger } from 'mc-scribe';
@@ -64,10 +82,14 @@ app.use(requestLogger);
 
 or import the main object and use the property
 
+JavaScript
+
 ```javascript
 const logging = require('mc-scribe');
 app.use(logging.requestLogger);
 ```
+
+TypeScript
 
 ```typescript
 import * as logging from 'mc-scribe';
@@ -94,9 +116,13 @@ If in the environment variables `LOG_LEVEL` is set to `FINE` then the requestLog
 
 In any module you would like to implement the logger you will need to import the logger with
 
+JavaScript
+
 ```javascript
 const logger = require('mc-scribe').consoleLogger;
 ```
+
+TypeScript
 
 ```typescript
 import { logger } from 'mc-scribe';
@@ -104,9 +130,13 @@ import { logger } from 'mc-scribe';
 
 To use the logger you will need to call the function with
 
+JavaScript
+
 ```javascript
 logger(level, ...args);
 ```
+
+TypeScript
 
 ```typescript
 logger(level, ...args);
