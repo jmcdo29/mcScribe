@@ -1,6 +1,7 @@
 # Mc-Scribe
 
 [![Build Status](https://travis-ci.org/jmcdo29/mcScribe.svg?branch=master)](https://travis-ci.org/jmcdo29/mcScribe)
+[![codecov](https://codecov.io/gh/jmcdo29/mcScribe/branch/master/graph/badge.svg)](https://codecov.io/gh/jmcdo29/mcScribe)
 
 Before getting started import the module in your root server file with
 
