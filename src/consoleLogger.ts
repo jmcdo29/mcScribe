@@ -3,7 +3,7 @@
  * @param {string} level - the level of severity of the Log. Levels can be (in descending order) FATAL, ERROR, WARN, INFO (global default), DEBUG, FINE, OFF
  * @param  {...any} args - What you want to log
  */
-module.exports = function(level, ...args) {
+export function consoleLogger(level: string, ...args: any[]) {
   level = level.toUpperCase();
   const logMap = new Map([
     ['FATAL', 6],

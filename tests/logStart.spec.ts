@@ -1,4 +1,4 @@
-const logStart = require('../src/logStart');
+import { logStart } from '../src/logStart';
 
 describe('logStart tests', () => {
 

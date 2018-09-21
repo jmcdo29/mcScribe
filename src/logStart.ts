@@ -3,7 +3,7 @@
  * @param {number} returnCode The initial return code
  * @param {string[]} errorList the initial error list
  */
-module.exports = function(returnCode, errorList) {
+export function logStart(returnCode?: number, errorList?: string[]) {
   return function(req, res, next) {
     req._result = {};
     req._result.returnCode = returnCode || 0;

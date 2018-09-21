@@ -6,6 +6,10 @@ Before getting started import the module in your root server file with
 const logging = require('mc-scribe');
 ```
 
+```typescript
+import * as logger from 'mc-scribe';
+```
+
 from there the functions `logStart`, `requestLogger`, and `logger` can be accessed.
 
 ## Logger Start Middleware
@@ -16,9 +20,17 @@ While setting up your middleware add in the following line to make sure the requ
 app.use(logging.logStart(returnCode, errorList));
 ```
 
+```typescript
+app.use(logging.logStart(returnCode, errorList));
+```
+
 To use it without adding any of your own values, just call
 
 ```javascript
+app.use(logging.logStart());
+```
+
+```typescript
 app.use(logging.logStart());
 ```
 
@@ -45,10 +57,20 @@ const requestLogger = require('mc-scribe').requestLogger;
 app.use(requestLogger);
 ```
 
+```typescript
+import { requestLogger } from 'mc-scribe';
+app.use(requestLogger);
+```
+
 or import the main object and use the property
 
 ```javascript
 const logging = require('mc-scribe');
+app.use(logging.requestLogger);
+```
+
+```typescript
+import * as logging from 'mc-scribe';
 app.use(logging.requestLogger);
 ```
 
@@ -76,9 +98,17 @@ In any module you would like to implement the logger you will need to import the
 const logger = require('mc-scribe').consoleLogger;
 ```
 
+```typescript
+import { logger } from 'mc-scribe';
+```
+
 To use the logger you will need to call the function with
 
 ```javascript
+logger(level, ...args);
+```
+
+```typescript
 logger(level, ...args);
 ```
 

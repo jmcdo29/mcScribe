@@ -1,4 +1,4 @@
-const requestLogger = require('../src/requestLogger');
+import { requestLogger } from '../src/requestLogger';
 
 describe('requestLogger', () => {
   test('successful', () => {
@@ -12,28 +12,28 @@ describe('requestLogger', () => {
           errorList: []
         },
         method: 'GET',
-        _start: Date.now() - 100
+        _start: Date.now() - 100,
+        body: {}
       },
-      {},
-      jest.fn()
+      {}
     );
     // Expectations
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('caller')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('httpMethod')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('status')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('serviceName')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('processTime')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('SUCCESS')
     );
   });
@@ -49,28 +49,28 @@ describe('requestLogger', () => {
           errorList: ['There was an error']
         },
         method: 'GET',
-        _start: Date.now() - 100
+        _start: Date.now() - 100,
+        body: {}
       },
-      {},
-      jest.fn()
+      {}
     );
     // Expectations
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('caller')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('httpMethod')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('status')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('serviceName')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('processTime')
     );
-    expect(console.log.mock.calls[0][1]).toEqual(
+    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(
       expect.stringContaining('ERROR')
     );
   });
