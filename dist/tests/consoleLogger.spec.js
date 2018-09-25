@@ -72,4 +72,10 @@ describe('test the consoleLogger', () => {
         expect(console.log.mock.calls[0][1]).toEqual(expect.stringContaining("this should still log"));
         expect(console.log.mock.calls[1][1]).toEqual({ message: 'An object too' });
     });
+    test('DO NOT CHANGE COLOR', () => {
+        process.env.NODE_ENV = 'production';
+        consoleLogger_1.consoleLogger('inof', 'this should still log', { message: 'An object too' });
+        expect(console.log.mock.calls[0][1]).toEqual(expect.stringContaining("this should still log"));
+        expect(console.log.mock.calls[1][1]).toEqual({ message: 'An object too' });
+    });
 });
