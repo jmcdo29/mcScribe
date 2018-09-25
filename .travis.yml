@@ -6,7 +6,7 @@ cache:
   - "$HOME/.npm"
   - node_modules
 before_install:
-- pip install --user codecov
+- npm install codecov -g
 install:
 - npm install
 after_success:
