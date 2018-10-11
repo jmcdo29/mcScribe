@@ -6,7 +6,7 @@ describe('test the consoleLogger', () => {
   beforeEach(() => {
     jest.resetModules();
     process.env = { ...OLD_ENV };
-    delete process.env.NODE_ENV;
+    process.env.NODE_ENV = 'dev';
     console.log = jest.fn();
   });
 
@@ -78,6 +78,7 @@ describe('test the consoleLogger', () => {
   });
 
   test('bad level passed', () => {
+    process.env.NODE_ENV = 'development';
     consoleLogger('inof', 'this should still log', {message: 'An object too'});
     expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining("this should still log"));
     expect((console.log as jest.Mock).mock.calls[1][1]).toEqual({message: 'An object too'});

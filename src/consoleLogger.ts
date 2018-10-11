@@ -47,7 +47,7 @@ export function consoleLogger(level: string, ...args: any[]) {
 
 function levelString(level: string): string {
   let retString;
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development') {
     switch (level) {
       case 'FATAL':
         retString = '\u001b[47m\u001b[30m';
