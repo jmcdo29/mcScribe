@@ -120,16 +120,16 @@ In any module you would like to implement the logger you will need to import the
 JavaScript
 
 ```javascript
-const logger = require('mc-scribe').consoleLogger;
+const logger = require('mc-scribe').scribe;
 ```
 
 TypeScript
 
 ```typescript
-import { logger } from 'mc-scribe';
+import { scribe as logger } from 'mc-scribe';
 ```
 
-To use the logger you will need to call the function with
+`scribe` is the natural name of the logging method, and can be used to log if you so choose to use it. To use the logger you will need to call the function with
 
 JavaScript
 
