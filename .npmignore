@@ -3,3 +3,9 @@ tests/
 index.ts
 *.spec.ts
 !dist/*
+coverage/
+.vscode/
+*.tgz
+.travis.yml
+tsconfig.json
+jest.config.js
