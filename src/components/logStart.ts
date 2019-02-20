@@ -4,7 +4,7 @@
  * @param {string[]} errorList the initial error list
  */
 export function logStart(returnCode?: number, errorList?: string[]) {
-  return function(req, res, next) {
+  return function(req: any, res: any, next: any) {
     req._result = {};
     req._result.returnCode = returnCode || 0;
     req._result.errorList = errorList || [];

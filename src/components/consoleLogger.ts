@@ -7,7 +7,7 @@
  * Levels can be (in descending order) FATAL, ERROR, WARN, INFO (global default), DEBUG, FINE, OFF
  * @param  {...any} args - What you want to log
  */
-export function consoleLogger(level: string, ...args: any[]) {
+export function scribe(level: string, ...args: any[]) {
   level = level.toUpperCase();
   const logMap = new Map([
     ['FATAL', 6],
@@ -46,7 +46,7 @@ export function consoleLogger(level: string, ...args: any[]) {
 }
 
 function levelString(level: string): string {
-  let retString;
+  let retString: string;
   if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development') {
     switch (level) {
       case 'FATAL':

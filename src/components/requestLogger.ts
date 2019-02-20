@@ -1,4 +1,4 @@
-import { consoleLogger as myLogger } from './consoleLogger';
+import { scribe } from './consoleLogger';
 
 /**
  * Logs the request made to the API. Captures the sender's IP address, the request path, and type, the returnCode, the status type, the logger's version, the service type, and if the logger is set to the right level, the body details.
@@ -29,9 +29,9 @@ export function requestLogger(req: {ip: string, path: string, _result: {returnCo
   logging.statusCode = req._result.returnCode;
   logging.statusMessage = req._result.errorList[0];
   logging.serviceType = 'REST';
-  myLogger(
+  scribe(
     'INFO',
     JSON.stringify(logging).replace(/,/g, ' | ')
   );
-  myLogger('FINE', req.body);
+  scribe('FINE', req.body);
 };

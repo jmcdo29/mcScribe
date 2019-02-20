@@ -1,4 +1,4 @@
-import { requestLogger } from '../src/requestLogger';
+import { requestLogger } from './requestLogger';
 
 describe('requestLogger', () => {
   test('successful', () => {

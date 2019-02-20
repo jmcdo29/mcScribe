@@ -1,4 +1,4 @@
-import { logStart } from '../src/logStart';
+import { logStart } from './logStart';
 
 describe('logStart tests', () => {
 
