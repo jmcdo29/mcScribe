@@ -5,7 +5,7 @@ describe('index', () => {
     expect(mcScribe.logStart).toBeTruthy();
     expect(mcScribe.logStart).toBeTruthy();
     expect(mcScribe.requestLogger).toBeTruthy();
-    expect(typeof mcScribe.scribe).toBe('function');
+    expect(typeof mcScribe.scribe).toBe('object');
     expect(typeof mcScribe.logStart).toBe('function');
     expect(typeof mcScribe.requestLogger).toBe('function');
   });

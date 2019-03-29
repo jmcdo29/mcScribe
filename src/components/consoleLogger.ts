@@ -7,7 +7,7 @@
  * Levels can be (in descending order) FATAL, ERROR, WARN, INFO (global default), DEBUG, FINE, OFF
  * @param  {...any} args - What you want to log
  */
-export function scribe(level: string, ...args: any[]) {
+function scriber(level: string, ...args: any[]) {
   level = level.toUpperCase();
   const logMap = new Map([
     ['FATAL', 6],
@@ -19,27 +19,18 @@ export function scribe(level: string, ...args: any[]) {
     ['OFF', 0]
   ]);
   let mapLevel = logMap.get(level);
-  level = mapLevel ? level : 'INFO';
-  mapLevel = mapLevel ? mapLevel : 3;
+  const dateString = '[' + new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '') + ']';
+  level = '[' + level + ']';
+  const levelOut = levelString(level.padEnd(7).toUpperCase());
   const logLevel = logMap.get(process.env.LOG_LEVEL || 'INFO');
   if (mapLevel >= logLevel && logLevel !== 0) {
     for (const arg of args) {
       if (typeof arg === 'object') {
-        console.log(
-          `[${new Date(Date.now())
-            .toISOString()
-            .replace('T', ' ')
-            .replace('Z', '')}] [${levelString(level.toUpperCase())}]\t|\n`,
-          arg
-        );
+        process.stdout.write(`${dateString} ${levelOut}|\n`);
+        process.stdout.write(JSON.stringify(arg, null, 2));
+        process.stdout.write('\n');
       } else {
-        console.log(
-          `[${new Date(Date.now())
-            .toISOString()
-            .replace('T', ' ')
-            .replace('Z', '')}] [${levelString(level.toUpperCase())}]\t|`,
-          arg
-        );
+        process.stdout.write(`${dateString} ${levelOut}| ${arg}\n`);
       }
     }
   }
@@ -47,24 +38,24 @@ export function scribe(level: string, ...args: any[]) {
 
 function levelString(level: string): string {
   let retString: string;
-  if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development') {
-    switch (level) {
-      case 'FATAL':
+  if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'prod') {
+    switch (level.trim()) {
+      case '[FATAL]':
         retString = '\u001b[47m\u001b[30m';
         break;
-      case 'ERROR':
+      case '[ERROR]':
         retString = '\u001b[31m';
         break;
-      case 'WARN':
+      case '[WARN]':
         retString = '\u001b[33m';
         break;
-      case 'INFO':
+      case '[INFO]':
         retString = '\u001b[34m';
         break;
-      case 'DEBUG':
+      case '[DEBUG]':
         retString = '\u001b[35m';
         break;
-      case 'FINE':
+      case '[FINE]':
         retString = '\u001b[32m';
         break;
     }
@@ -73,4 +64,13 @@ function levelString(level: string): string {
     retString = level;
   }
   return retString;
+}
+
+export const scribe = {
+  fatal: (...args: any[]) => scriber('FATAL', ...args),
+  error: (...args: any[]) => scriber('ERROR', ...args),
+  warn: (...args: any[]) => scriber('WARN', ...args),
+  info: (...args: any[]) => scriber('INFO', ...args),
+  debug: (...args: any[]) => scriber('DEBUG', ...args),
+  fine: (...args: any[]) => scriber('FINE', ...args)
 }

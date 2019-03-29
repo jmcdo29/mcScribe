@@ -1,7 +1,6 @@
 # Mc-Scribe
 
 [![Build Status](https://travis-ci.org/jmcdo29/mcScribe.svg?branch=master)](https://travis-ci.org/jmcdo29/mcScribe)
-[![codecov](https://codecov.io/gh/jmcdo29/mcScribe/branch/master/graph/badge.svg)](https://codecov.io/gh/jmcdo29/mcScribe)
 
 Before getting started import the module in your root server file with
 
@@ -134,13 +133,13 @@ import { scribe as logger } from 'mc-scribe';
 JavaScript
 
 ```javascript
-logger(level, ...args);
+logger.level(...args);
 ```
 
 TypeScript
 
 ```typescript
-logger(level, ...args);
+logger.level(...args);
 ```
 
 where `level` is the severity of the log as a string and `args` is what is to logged. The severities of the logger are as follows in descending order
@@ -167,7 +166,7 @@ So long as the level provided is above the global log level the statement will b
 The expected output of the call
 
 ```javascript
-logger('INFO', 'THIS IS A TEST.', 'THIS IS ANOTHER TEST.', {message: 'THIS IS AN OBJECT TEST'}, 501, ['This', 'Is', 'An', 'Array']);
+logger.info('THIS IS A TEST.', 'THIS IS ANOTHER TEST.', {message: 'THIS IS AN OBJECT TEST'}, 501, ['This', 'Is', 'An', 'Array']);
 ```
 
 ```text

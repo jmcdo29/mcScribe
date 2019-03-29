@@ -29,9 +29,8 @@ export function requestLogger(req: {ip: string, path: string, _result: {returnCo
   logging.statusCode = req._result.returnCode;
   logging.statusMessage = req._result.errorList[0];
   logging.serviceType = 'REST';
-  scribe(
-    'INFO',
+  scribe.info(
     JSON.stringify(logging).replace(/,/g, ' | ')
   );
-  scribe('FINE', req.body);
+  scribe.fine(req.body);
 };

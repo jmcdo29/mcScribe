@@ -7,7 +7,7 @@ describe('test the scribe', () => {
     jest.resetModules();
     process.env = { ...OLD_ENV };
     process.env.NODE_ENV = 'dev';
-    console.log = jest.fn();
+    process.stdout.write = jest.fn()
   });
 
   afterEach(() => {
@@ -16,78 +16,70 @@ describe('test the scribe', () => {
 
   test('FATAL LEVEL', () => {
     process.env.LOG_LEVEL = 'FATAL';
-    scribe('FATAL', 'log this');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining('log this'));
-    scribe('ERROR', "don't log this");
-    expect((console.log as jest.Mock).mock.calls[0][1]).not.toEqual(expect.stringContaining("don't log this"));
+    scribe.fatal('log this');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('log this'));
+    scribe.error("don't log this");
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(expect.stringContaining("don't log this"));
   });
 
   test('ERROR LEVEL', () => {
     process.env.LOG_LEVEL = "ERROR";
-    scribe('ERROR', ['This', 'should', 'log']);
-    expect((console.log as jest.Mock).mock.calls[0][1]).toContain('This')
-    scribe('WARN', "Don't log this");
-    expect(typeof (console.log as jest.Mock).mock.calls[0][1]).not.toBe('string');
+    scribe.error(['This', 'should', 'log']);
+    expect((process.stdout.write as jest.Mock).mock.calls[1][0]).toContain('This')
+    scribe.warn("Don't log this");
+    expect((process.stdout.write as jest.Mock).mock.calls[3]).toBeFalsy();
   });
 
   test('WARN LEVEL', () => {
     process.env.LOG_LEVEL = "WARN";
-    scribe('WARN', 'This should log');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining('This should log'));
-    scribe('INFO', 'Don\'t log this');
-    expect((console.log as jest.Mock).mock.calls[0][1]).not.toEqual(expect.stringContaining("Don't log this"));
+    scribe.warn('This should log');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('This should log'));
+    scribe.info('Don\'t log this');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(expect.stringContaining("Don't log this"));
   });
 
   test('INFO LEVEL', () => {
     process.env.LOG_LEVEL = "INFO";
-    scribe('INFO', 'This should log');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining('This should log'));
-    scribe('DEBUG', 'Don\'t log this');
-    expect((console.log as jest.Mock).mock.calls[0][1]).not.toEqual(expect.stringContaining("Don't log this"));
+    scribe.info('This should log');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('This should log'));
+    scribe.debug('Don\'t log this');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(expect.stringContaining("Don't log this"));
   });
 
   test('DEBUG LEVEL', () => {
     process.env.LOG_LEVEL = "DEBUG";
-    scribe('DEBUG', 'This should log');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining('This should log'));
-    scribe('FINE', 'Don\'t log this');
-    expect((console.log as jest.Mock).mock.calls[0][1]).not.toEqual(expect.stringContaining("Don't log this"));
+    scribe.debug('This should log');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('This should log'));
+    scribe.fine('Don\'t log this');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(expect.stringContaining("Don't log this"));
   });
 
   test('FINE LEVEL', () => {
     process.env.LOG_LEVEL = "FINE";
-    scribe('FINE', 'This should log');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining('This should log'));
-    scribe('FINE', 'This should log');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining('This should log'));
+    scribe.fine('This should log');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('This should log'));
+    scribe.fine('This should log');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('This should log'));
   });
 
   test('OFF LEVEL', () => {
     process.env.LOG_LEVEL = "OFF";
-    scribe('FINE', 'This shouldn\'t log');
-    expect((console.log as jest.Mock).mock.calls[0]).toBeFalsy();
-    scribe('FATAL', 'Don\'t log this');
-    expect((console.log as jest.Mock).mock.calls[0]).toBeFalsy();
+    scribe.fine('This shouldn\'t log');
+    expect((process.stdout.write as jest.Mock).mock.calls[0]).toBeFalsy();
+    scribe.fatal('Don\'t log this');
+    expect((process.stdout.write as jest.Mock).mock.calls[0]).toBeFalsy();
   });
 
   test('NO LEVEL SET', () => {
-    scribe('INFO', 'This should print');
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining("This should print"));
-    scribe('DEBUG', 'This should not');
-    expect((console.log as jest.Mock).mock.calls[0][1]).not.toEqual(expect.stringContaining("This should not"));
+    scribe.info('This should print');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining("This should print"));
+    scribe.debug('This should not');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(expect.stringContaining("This should not"));
   });
 
-  test('bad level passed', () => {
-    process.env.NODE_ENV = 'development';
-    scribe('inof', 'this should still log', {message: 'An object too'});
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining("this should still log"));
-    expect((console.log as jest.Mock).mock.calls[1][1]).toEqual({message: 'An object too'});
-  });
-
-  test('DO NOT CHANGE COLOR', () => {
-    process.env.NODE_ENV = 'production';
-    scribe('inof', 'this should still log', {message: 'An object too'});
-    expect((console.log as jest.Mock).mock.calls[0][1]).toEqual(expect.stringContaining("this should still log"));
-    expect((console.log as jest.Mock).mock.calls[1][1]).toEqual({message: 'An object too'});
+  test('No colors', () => {
+    process.env.NODE_ENV = 'prod';
+    scribe.info('NO COLORS!');
+    expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining("NO COLORS!"));
   });
 });
