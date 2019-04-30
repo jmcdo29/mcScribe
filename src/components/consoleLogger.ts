@@ -67,10 +67,34 @@ function levelString(level: string): string {
 }
 
 export const scribe = {
+  /**
+   * Logging function for catastrophic errors. Or stack traces. Whatever you want.
+   * @param {...any} args what you want to be written
+   */
   fatal: (...args: any[]) => scriber('FATAL', ...args),
+  /**
+   * Logging function for error messages. Or whatever else you want to show up in red you want.
+   * @param {...any} args what you want to be written
+   */
   error: (...args: any[]) => scriber('ERROR', ...args),
+  /**
+   * Logging function for warnings to show that some things are slow. Or whatever you want with a yellow tag.
+   * @param {...any} args what you want to be written
+   */
   warn: (...args: any[]) => scriber('WARN', ...args),
+  /**
+   * Logging function for general information with a pretty blue tag.
+   * @param {...any} args what you want to be written
+   */
   info: (...args: any[]) => scriber('INFO', ...args),
+  /**
+   * Logging function for getting into some details, great for debugging and checking some properties. Has a purple tag in dev.
+   * @param {...any} args what you want to be written
+   */
   debug: (...args: any[]) => scriber('DEBUG', ...args),
+  /**
+   * Logging function for the nitty-gritty. Payloads, timings, sensitive information, you name it. Green tagged in dev, but should be used sparingly in prod.
+   * @param {...any} args what you want to be written
+   */
   fine: (...args: any[]) => scriber('FINE', ...args)
 }

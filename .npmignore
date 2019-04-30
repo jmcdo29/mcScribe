@@ -9,3 +9,4 @@ coverage/
 .travis.yml
 tsconfig.json
 jest.config.js
+test*
