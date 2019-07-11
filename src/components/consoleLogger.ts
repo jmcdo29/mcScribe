@@ -27,7 +27,7 @@ function scriber(level: string, ...args: any[]) {
     for (const arg of args) {
       if (typeof arg === 'object') {
         process.stdout.write(`${dateString} ${levelOut}|\n`);
-        process.stdout.write(JSON.stringify(arg, null, 2));
+        process.stdout.write(JSON.stringify(arg, getCircularReplacer(), 2));
         process.stdout.write('\n');
       } else {
         process.stdout.write(`${dateString} ${levelOut}| ${arg}\n`);
@@ -36,9 +36,14 @@ function scriber(level: string, ...args: any[]) {
   }
 }
 
+function isNotProd() {
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  return process.env.NODE_ENV.toLowerCase() !== 'production' && process.env.NODE_ENV.toLowerCase() !== 'prod';
+}
+
 function levelString(level: string): string {
   let retString: string;
-  if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'prod') {
+  if (isNotProd()) {
     switch (level.trim()) {
       case '[FATAL]':
         retString = '\u001b[47m\u001b[30m';
@@ -65,6 +70,19 @@ function levelString(level: string): string {
   }
   return retString;
 }
+
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return '[Circular]';
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
 
 export const scribe = {
   /**

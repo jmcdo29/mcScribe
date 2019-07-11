@@ -9,5 +9,5 @@
       "jest"
     ]
   },
-  "exclude": ["**/*.spec.ts"]
+  "exclude": ["./dist/", "**/*.spec.ts"]
 }

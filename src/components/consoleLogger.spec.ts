@@ -3,6 +3,14 @@ import { scribe } from './consoleLogger';
 describe('test the scribe', () => {
   const OLD_ENV = process.env;
 
+  const circular: any = {};
+  circular.a = 'foo';
+  circular.b = circular;
+  circular.c = {
+    a: circular.a,
+    b: circular.b
+  };
+
   beforeEach(() => {
     jest.resetModules();
     process.env = { ...OLD_ENV };
@@ -44,6 +52,8 @@ describe('test the scribe', () => {
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining('This should log'));
     scribe.debug('Don\'t log this');
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(expect.stringContaining("Don't log this"));
+    scribe.info(circular);
+    expect((process.stdout.write as jest.Mock).mock.calls[2][0]).toContain('[Circular]');
   });
 
   test('DEBUG LEVEL', () => {
@@ -81,5 +91,7 @@ describe('test the scribe', () => {
     process.env.NODE_ENV = 'prod';
     scribe.info('NO COLORS!');
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(expect.stringContaining("NO COLORS!"));
+    scribe.info(circular);
+    expect((process.stdout.write as jest.Mock).mock.calls[2][0]).toContain('[Circular]');
   });
 });
