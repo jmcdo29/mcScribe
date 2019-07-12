@@ -74,5 +74,4 @@ describe('requestLogger', () => {
       expect.stringContaining('ERROR')
     );
   });
-
 });

@@ -1,7 +1,6 @@
 import { logStart } from './logStart';
 
 describe('logStart tests', () => {
-
   test('passing in args', () => {
     const req = {};
     const res = {};
@@ -16,5 +15,4 @@ describe('logStart tests', () => {
     const mw = logStart();
     mw(req, res, next);
   });
-
 });

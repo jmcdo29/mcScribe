@@ -18,8 +18,14 @@ function scriber(level: string, ...args: any[]) {
     ['FINE', 1],
     ['OFF', 0]
   ]);
-  let mapLevel = logMap.get(level);
-  const dateString = '[' + new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '') + ']';
+  const mapLevel = logMap.get(level);
+  const dateString =
+    '[' +
+    new Date(Date.now())
+      .toISOString()
+      .replace('T', ' ')
+      .replace('Z', '') +
+    ']';
   level = '[' + level + ']';
   const levelOut = levelString(level.padEnd(7).toUpperCase());
   const logLevel = logMap.get(process.env.LOG_LEVEL || 'INFO');
@@ -38,7 +44,10 @@ function scriber(level: string, ...args: any[]) {
 
 function isNotProd() {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-  return process.env.NODE_ENV.toLowerCase() !== 'production' && process.env.NODE_ENV.toLowerCase() !== 'prod';
+  return (
+    process.env.NODE_ENV.toLowerCase() !== 'production' &&
+    process.env.NODE_ENV.toLowerCase() !== 'prod'
+  );
 }
 
 function levelString(level: string): string {
@@ -74,7 +83,9 @@ function levelString(level: string): string {
 const getCircularReplacer = () => {
   const seen = new WeakSet();
   return (key, value) => {
-    if (typeof value === "object" && value !== null) {
+    if (typeof value === 'function') {
+      return '[Function]';
+    } else if (typeof value === 'object' && value !== null) {
       if (seen.has(value)) {
         return '[Circular]';
       }
@@ -111,8 +122,9 @@ export const scribe = {
    */
   debug: (...args: any[]) => scriber('DEBUG', ...args),
   /**
-   * Logging function for the nitty-gritty. Payloads, timings, sensitive information, you name it. Green tagged in dev, but should be used sparingly in prod.
+   * Logging function for the nitty-gritty. Payloads, timings, sensitive information, you name it.
+   * Green tagged in dev, but should be used sparingly in prod.
    * @param {...any} args what you want to be written
    */
   fine: (...args: any[]) => scriber('FINE', ...args)
-}
+};
