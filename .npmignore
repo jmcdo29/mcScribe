@@ -10,3 +10,7 @@ coverage/
 tsconfig.json
 jest.config.js
 test*
+.huskyrc
+.prettier*
+commitlint*
+tslint.json
