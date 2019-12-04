@@ -6,7 +6,7 @@ describe('test the scribe', () => {
   const circular: any = {};
   circular.a = 'foo';
   circular.b = circular;
-  circular.c = function() {
+  circular.c = () => {
     return 'hello';
   };
 
@@ -27,9 +27,9 @@ describe('test the scribe', () => {
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(
       expect.stringContaining('log this')
     );
-    scribe.error("don't log this");
+    scribe.error('do not log this');
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(
-      expect.stringContaining("don't log this")
+      expect.stringContaining('do not log this')
     );
   });
 
@@ -39,7 +39,7 @@ describe('test the scribe', () => {
     expect((process.stdout.write as jest.Mock).mock.calls[1][0]).toContain(
       'This'
     );
-    scribe.warn("Don't log this");
+    scribe.warn('Do not log this');
     expect((process.stdout.write as jest.Mock).mock.calls[3]).toBeFalsy();
   });
 
@@ -49,9 +49,9 @@ describe('test the scribe', () => {
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(
       expect.stringContaining('This should log')
     );
-    scribe.info("Don't log this");
+    scribe.info('Do not log this');
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(
-      expect.stringContaining("Don't log this")
+      expect.stringContaining('Do not log this')
     );
   });
 
@@ -61,9 +61,9 @@ describe('test the scribe', () => {
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(
       expect.stringContaining('This should log')
     );
-    scribe.debug("Don't log this");
+    scribe.debug('Do not log this');
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(
-      expect.stringContaining("Don't log this")
+      expect.stringContaining('Do not log this')
     );
     scribe.info(circular);
     expect((process.stdout.write as jest.Mock).mock.calls[2][0]).toContain(
@@ -80,9 +80,9 @@ describe('test the scribe', () => {
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).toEqual(
       expect.stringContaining('This should log')
     );
-    scribe.fine("Don't log this");
+    scribe.fine('Do not log this');
     expect((process.stdout.write as jest.Mock).mock.calls[0][0]).not.toEqual(
-      expect.stringContaining("Don't log this")
+      expect.stringContaining('Do not log this')
     );
   });
 
@@ -100,9 +100,9 @@ describe('test the scribe', () => {
 
   test('OFF LEVEL', () => {
     process.env.LOG_LEVEL = 'OFF';
-    scribe.fine("This shouldn't log");
+    scribe.fine('This should not log');
     expect((process.stdout.write as jest.Mock).mock.calls[0]).toBeFalsy();
-    scribe.fatal("Don't log this");
+    scribe.fatal('Do not log this');
     expect((process.stdout.write as jest.Mock).mock.calls[0]).toBeFalsy();
   });
 

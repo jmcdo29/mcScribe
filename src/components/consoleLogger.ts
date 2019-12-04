@@ -9,16 +9,16 @@
  */
 function scriber(level: string, ...args: any[]) {
   level = level.toUpperCase();
-  const logMap = new Map([
-    ['FATAL', 6],
-    ['ERROR', 5],
-    ['WARN', 4],
-    ['INFO', 3],
-    ['DEBUG', 2],
-    ['FINE', 1],
-    ['OFF', 0]
-  ]);
-  const mapLevel = logMap.get(level);
+  const logMap = {
+    FATAL: 6,
+    ERROR: 5,
+    WARN: 4,
+    INFO: 3,
+    DEBUG: 2,
+    FINE: 1,
+    OFF: 0
+  };
+  const mapLevel = logMap[level];
   const dateString =
     '[' +
     new Date(Date.now())
@@ -27,16 +27,16 @@ function scriber(level: string, ...args: any[]) {
       .replace('Z', '') +
     ']';
   level = '[' + level + ']';
-  const levelOut = levelString(level.padEnd(7).toUpperCase());
-  const logLevel = logMap.get(process.env.LOG_LEVEL || 'INFO');
+  level = levelString(level.padEnd(7).toUpperCase());
+  const logLevel = logMap[process.env.LOG_LEVEL || 'INFO'];
   if (mapLevel >= logLevel && logLevel !== 0) {
     for (const arg of args) {
       if (typeof arg === 'object') {
-        process.stdout.write(`${dateString} ${levelOut}|\n`);
+        process.stdout.write(`${dateString} ${level}|\n`);
         process.stdout.write(JSON.stringify(arg, getCircularReplacer(), 2));
         process.stdout.write('\n');
       } else {
-        process.stdout.write(`${dateString} ${levelOut}| ${arg}\n`);
+        process.stdout.write(`${dateString} ${level}| ${arg}\n`);
       }
     }
   }
@@ -50,44 +50,83 @@ function isNotProd() {
   );
 }
 
-function levelString(level: string): string {
-  let retString: string;
+function getColor(
+  color:
+    | 'red'
+    | 'blue'
+    | 'green'
+    | 'yellow'
+    | 'purple'
+    | 'cyan'
+    | 'whiteAndBlack'
+    | 'reset'
+): string {
+  let retString = '';
   if (isNotProd()) {
-    switch (level.trim()) {
-      case '[FATAL]':
-        retString = '\u001b[47m\u001b[30m';
-        break;
-      case '[ERROR]':
+    switch (color) {
+      case 'red':
         retString = '\u001b[31m';
         break;
-      case '[WARN]':
-        retString = '\u001b[33m';
-        break;
-      case '[INFO]':
+      case 'blue':
         retString = '\u001b[34m';
         break;
-      case '[DEBUG]':
-        retString = '\u001b[35m';
-        break;
-      case '[FINE]':
+      case 'green':
         retString = '\u001b[32m';
         break;
+      case 'yellow':
+        retString = '\u001b[33m';
+        break;
+      case 'purple':
+        retString = '\u001b[35m';
+        break;
+      case 'whiteAndBlack':
+        retString = '\u001b[47m\u001b[30m';
+        break;
+      case 'cyan':
+        retString = '\u001b[36m';
+        break;
+      case 'reset':
+      default:
+        retString = '\u001b[0m';
     }
-    retString += level + '\u001b[0m';
-  } else {
-    retString = level;
   }
+  return retString;
+}
+
+function levelString(level: string): string {
+  let retString: string;
+  switch (level.trim()) {
+    case '[FATAL]':
+      retString = getColor('whiteAndBlack');
+      break;
+    case '[ERROR]':
+      retString = getColor('red');
+      break;
+    case '[WARN]':
+      retString = getColor('yellow');
+      break;
+    case '[INFO]':
+      retString = getColor('blue');
+      break;
+    case '[DEBUG]':
+      retString = getColor('purple');
+      break;
+    case '[FINE]':
+      retString = getColor('green');
+      break;
+  }
+  retString += level + getColor('reset');
   return retString;
 }
 
 const getCircularReplacer = () => {
   const seen = new WeakSet();
-  return (key, value) => {
+  return (key: string, value: any) => {
     if (typeof value === 'function') {
-      return '[Function]';
+      return getColor('cyan') + '[Function]' + getColor('reset');
     } else if (typeof value === 'object' && value !== null) {
       if (seen.has(value)) {
-        return '[Circular]';
+        return getColor('cyan') + '[Circular]' + getColor('reset');
       }
       seen.add(value);
     }
